@@ -32,7 +32,7 @@ article = {"title": "中文技术笔记", "slug": "build-preview", "description"
 
 ![编写 Markdown 后进行本地预览，最后检查准备公开的内容](writing-flow.svg "写作流程示意图")
 
-图中最后一步是内容检查；站点部署尚未配置。
+图中最后一步是内容检查；确认准备公开的正文和配图后，再提交发布。
 
 ## 表格与链接
 

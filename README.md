@@ -1,6 +1,6 @@
 # dogdreamson555 的博客
 
-使用 Hugo 与 Theme Stack 构建的个人博客。前两阶段“工程可构建”和“写作可重复”已通过示例验证，作者已确认阅读效果没有发现问题；真实文章兼容性待验证。GitHub Pages 部署和 giscus 评论将在后续阶段完成。
+使用 Hugo 与 Theme Stack 构建的个人博客。前两阶段“工程可构建”和“写作可重复”已通过示例验证，作者已确认阅读效果没有发现问题；真实文章兼容性待验证。站点通过 GitHub Actions 发布到 GitHub Pages，giscus 评论将在后续阶段接入。
 
 ## 固定依赖
 
@@ -92,7 +92,7 @@ content/post/my-second-post/
 1. 执行 `hugo server -D --bind 127.0.0.1`，打开首页及新文章，检查中文、目录、长代码滚动、表格、配图和站内链接；桌面与手机宽度各看一次。
 2. 核对标题、摘要、slug、日期与公开内容，将要发布的文章设为 `draft: false`。
 3. 按下节命令向全新目录生产构建，确认目标文章与图片存在，草稿未出现在 HTML、首页或订阅中。
-4. 查看 `git status`、本次 diff 及附件，确认源文件齐全且不含私密材料。部署尚未配置，当前构建成功不表示已上线。
+4. 查看 `git status`、本次 diff 及附件，确认源文件齐全且不含私密材料。按下节发布说明提交、推送并核对线上结果，本地构建成功不表示已上线。
 
 仓库中的 `second-post` 是按模板实际创建并修改中文标题的示例，保留 `draft: true`；使用 `-D` 时可访问 `/p/second-post/`，普通生产构建不会输出。两篇示例在正式发布前决定是否保留。
 
@@ -109,6 +109,24 @@ Write-Output "构建输出：$buildDir"
 
 生产配置排除草稿、未来文章和过期文章。`draft: true` 不会隐藏公开仓库中的源文件；尚未决定公开的内容应留在被忽略的 `.private/` 或仓库外。
 
+## 发布到 GitHub Pages
+
+站点地址：<https://dogdreamson555.github.io/>。用户站点使用根路径，不添加仓库名或 `/hugo-stack/` 前缀。
+
+`.github/workflows/pages.yml` 在推送到 `main` 或手动运行时构建并部署。仓库 **Settings → Pages → Source** 使用 **GitHub Actions**。工作流检出固定版本的主题，读取 `.hugo-version` 安装 Hugo Extended，核验下载包 SHA-256，使用 Pages 返回的地址生产构建；每次使用全新输出目录，仅上传生成站点，构建失败不会进入部署。
+
+完成公开内容检查后，提交准备发布的文件并运行：
+
+```sh
+git push origin main
+```
+
+随后在 [Actions](https://github.com/dogdreamson555/dogdreamson555.github.io/actions/workflows/pages.yml) 查看这次提交对应的任务，确认 build、deploy 均成功，再打开线上首页、文章和配图检查。手动重发可在该工作流页面选择 **Run workflow → main**。工作流使用 GitHub 自动提供的令牌与 Pages 所需权限，无需配置个人访问令牌或额外部署密钥。
+
+发布前检查 `git diff --cached` 及相对远端新增的提交，除了当前正文，还需检查待推送历史、附件及生成内容。草稿源文件在公开仓库中仍然可见。工程示例暂时保留用于上线验收，第二篇 `second-post` 保持草稿，不生成公开网页。
+
+升级 Hugo 时同步修改 `.hugo-version` 与工作流中的 `HUGO_SHA256`（对应官方 Linux amd64 Extended 包），先完成本地验证。官方 Actions 固定到完整提交 SHA，主题也保持固定提交，升级均需明确修改版本记录。
+
 ## 文件与当前状态
 
 - `config/_default/`：中文站点配置、主题参数与 Markdown 渲染配置。
@@ -117,6 +135,7 @@ Write-Output "构建输出：$buildDir"
 - `content/post/build-preview/writing-flow.svg`：随文章管理的写作流程配图。
 - `content/post/second-post/index.md`：由模板实际创建的第二篇示例草稿。
 - `themes/hugo-theme-stack/`：官方主题子模块，保留其 GPL-3.0 许可证和页面署名。
-- `baseURL` 暂按用户站点设为 `https://dogdreamson555.github.io/`；真实 Pages 设置与在线地址尚未验证。
+- `.github/workflows/pages.yml`：构建并部署 GitHub Pages。
+- `baseURL` 为 `https://dogdreamson555.github.io/`，已与 GitHub Pages 返回的实际地址核对一致。
 
 2026-09-08：版本和配置依据 [Stack v4.0.3](https://github.com/CaiJimmy/hugo-theme-stack/releases/tag/v4.0.3) 的主题元数据与默认配置。已使用上述固定版本向全新目录完成生产和草稿构建；本地首页、两篇示例及配图均返回 HTTP 200，代码高亮、表格、章节锚点和跨文章链接已检查。第二篇草稿未进入生产输出（包括订阅），改中文标题后链接保持不变。作者已确认桌面、手机宽度下的阅读效果没有发现问题。真实笔记、截图及编辑器专用语法尚待真实素材验证。
