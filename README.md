@@ -1,6 +1,6 @@
 # dogdreamson555 的博客
 
-使用 Hugo 与 Theme Stack 构建的个人博客。前两阶段“工程可构建”和“写作可重复”已通过示例验证，作者已确认阅读效果没有发现问题；真实文章兼容性待验证。站点通过 GitHub Actions 发布到 GitHub Pages，giscus 评论将在后续阶段接入。
+使用 Hugo 与 Theme Stack 构建的个人博客。前两阶段“工程可构建”和“写作可重复”已通过示例验证，作者已确认阅读效果没有发现问题；真实文章兼容性待验证。站点通过 GitHub Actions 发布到 GitHub Pages，生产文章页使用 giscus 评论。
 
 ## 固定依赖
 
@@ -127,13 +127,29 @@ git push origin main
 
 升级 Hugo 时同步修改 `.hugo-version` 与工作流中的 `HUGO_SHA256`（对应官方 Linux amd64 Extended 包），先完成本地验证。官方 Actions 固定到完整提交 SHA，主题也保持固定提交，升级均需明确修改版本记录。
 
+## 文章评论
+
+生产环境通过 Stack 内置 giscus 接入本仓库的 `Announcements` 讨论分类，配置位于 `config/production/params.toml`。其中仓库与分类 ID 是公开标识，不是令牌；不要将任何访问令牌写入站点配置。仓库必须启用 Discussions，并为其安装 [giscus App](https://github.com/apps/giscus)。
+
+评论按 `pathname` 映射，启用严格匹配；例如 `/p/build-preview/` 和 `/p/comments-guide/` 各自关联讨论。文章发布后保持 `slug` 和永久链接规则不变，改标题不会改变讨论映射；改路径需要单独迁移或核对讨论，网页重定向不能自动迁移评论。
+
+评论界面使用中文，跟随主题明暗模式，滚动至文章末尾时加载。首页和文章列表不加载评论；单篇文章或非文章页面可在元信息中设置 `comments: false` 关闭评论。`hugo server` 和 `hugo server -D` 使用 development 配置，默认关闭评论，避免在本地向正式讨论发测试内容。
+
+读者无需登录即可阅读已有评论，发言需完成 GitHub 登录及 giscus 授权。首次评论或回应后才会自动创建讨论。仓库 App 安装授权与访客登录授权是两个独立步骤。[giscus 官方说明](https://giscus.app/zh-CN)
+
+首次上线或修改评论配置、文章路径时，使用[工程预览示例](https://dogdreamson555.github.io/p/build-preview/)和[评论使用说明](https://dogdreamson555.github.io/p/comments-guide/)验收：未登录可读；登录后两篇各留一条明确测试评论，刷新仍保留，并在 GitHub 中对应不同讨论；保持 slug 不变修改一次标题后，原评论仍保留；评论服务无法连接时正文仍可阅读。日常发文不必重复整套授权与改标题测试。
+
+评论由作者或访客实际发送，单纯构建成功或看见评论框不代表读写验证完成。两篇示例是可保留的公开文章；需要清理测试内容时，在对应 GitHub Discussion 中处理评论，删除网页不会删除讨论。
+
 ## 文件与当前状态
 
 - `config/_default/`：中文站点配置、主题参数与 Markdown 渲染配置。
+- `config/production/params.toml`：仅生产环境启用的 giscus 配置。
 - `archetypes/post.md`：自动生成标题、日期、唯一目录标识及草稿状态的文章模板（手动修改 slug 后需自行检查唯一性）。
 - `content/post/build-preview/index.md`：非正式的工程预览示例，发布前应确认是否保留。
 - `content/post/build-preview/writing-flow.svg`：随文章管理的写作流程配图。
 - `content/post/second-post/index.md`：由模板实际创建的第二篇示例草稿。
+- `content/post/comments-guide/index.md`：可保留的评论使用说明，也是独立讨论验收的第二篇公开文章。
 - `themes/hugo-theme-stack/`：官方主题子模块，保留其 GPL-3.0 许可证和页面署名。
 - `.github/workflows/pages.yml`：构建并部署 GitHub Pages。
 - `baseURL` 为 `https://dogdreamson555.github.io/`，已与 GitHub Pages 返回的实际地址核对一致。
