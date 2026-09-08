@@ -25,3 +25,9 @@ Gemfile.lock
 
 AGENTS.md
 skills-lock.json
+
+# Hugo build output and local caches
+/public/
+/resources/_gen/
+/.hugo_build.lock
+/.hugo-cache/

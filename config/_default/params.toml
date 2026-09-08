@@ -1,0 +1,15 @@
+mainSections = ["post"]
+
+[sidebar]
+  avatar = ""
+
+[article]
+  toc = true
+  readingTime = true
+
+[comments]
+  enabled = false
+
+[dateFormat]
+  published = "2006-01-02"
+  lastUpdated = "2006-01-02"
