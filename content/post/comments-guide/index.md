@@ -1,5 +1,5 @@
 ---
-title: "文章评论使用说明"
+title: "如何使用文章评论"
 date: 2026-09-08T00:00:00+08:00
 slug: comments-guide
 draft: false
