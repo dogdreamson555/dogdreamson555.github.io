@@ -1,4 +1,5 @@
 mainSections = ["post"]
+favicon = "img/favicon.png"
 
 [sidebar]
   avatar = "https://avatars.githubusercontent.com/u/217573474?s=400&u=f8c010f4cbe0faa92b33fa7b38209273ad4bc681&v=4"
