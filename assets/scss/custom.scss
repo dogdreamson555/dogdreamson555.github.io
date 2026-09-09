@@ -159,6 +159,6 @@ body > .main-container {
 
 @media (prefers-reduced-motion: reduce) {
     #particles-js {
-        display: none;
+        opacity: 0.75;
     }
 }

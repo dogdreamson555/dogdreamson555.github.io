@@ -66,18 +66,32 @@
 <div id="particles-js" aria-hidden="true"></div>
 <script>
     (() => {
-        if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-            return;
-        }
+        const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
         const initParticles = () => {
             const script = document.createElement('script');
             script.src = '{{ $particlesScript.RelPermalink }}';
             script.async = true;
             script.addEventListener('load', () => {
-                if (typeof window.particlesJS?.load === 'function') {
-                    window.particlesJS.load('particles-js', '{{ $particlesConfig.RelPermalink }}');
+                if (typeof window.particlesJS?.load !== 'function') {
+                    return;
                 }
+
+                if (!reducedMotion) {
+                    window.particlesJS.load('particles-js', '{{ $particlesConfig.RelPermalink }}');
+                    return;
+                }
+
+                // Keep a still network visible when the user asks to reduce motion.
+                fetch('{{ $particlesConfig.RelPermalink }}')
+                    .then(response => response.json())
+                    .then(config => {
+                        config.particles.move.enable = false;
+                        config.interactivity.events.onhover.enable = false;
+                        config.interactivity.events.onclick.enable = false;
+                        window.particlesJS('particles-js', config);
+                    })
+                    .catch(() => {});
             }, { once: true });
             document.head.appendChild(script);
         };
