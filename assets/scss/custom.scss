@@ -1,0 +1,120 @@
+/* Article cards follow the reference site's wide banner treatment. */
+.article-list article.has-image {
+    .article-image {
+        /* Stack's list cards use a fixed desktop banner height. */
+        height: var(--article-image-height);
+        overflow: hidden;
+
+        & > a {
+            display: block;
+            height: 100%;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+.article-page .main-article.has-image {
+    .article-header .article-image {
+        aspect-ratio: 16 / 5;
+        height: auto;
+        overflow: hidden;
+
+        & > a {
+            display: block;
+            height: 100%;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            max-height: none;
+            object-fit: cover;
+        }
+    }
+}
+
+/* Keep the hierarchy used by the reference card: title, metadata, summary, tags. */
+.article-list article.has-image,
+.article-page .main-article.has-image {
+    .article-details {
+        gap: var(--spacing-lg);
+    }
+
+    .article-title {
+        text-align: center;
+    }
+}
+
+.article-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    color: var(--card-text-color-tertiary);
+    font-size: 1.4rem;
+    line-height: 1.5;
+
+    &__item {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+
+        & + &::before {
+            content: "|";
+            margin: 0 var(--spacing-md);
+        }
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        stroke-width: 1.33;
+    }
+
+    time,
+    a,
+    span {
+        color: inherit;
+        font-size: inherit;
+    }
+}
+
+.article-category {
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+
+    .left-category,
+    .right-tag {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+
+    .right-tag {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 767px) {
+    .article-time__item + .article-time__item::before {
+        margin-inline: var(--spacing-sm);
+    }
+
+    .article-category {
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+
+        .right-tag {
+            justify-content: flex-start;
+        }
+    }
+}
