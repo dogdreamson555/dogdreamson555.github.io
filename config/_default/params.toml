@@ -8,6 +8,7 @@ mainSections = ["post"]
   readingTime = true
 
 [widgets]
+  homepage = [{ type = "archives", params = { limit = 5 } }]
   page = [{ type = "toc" }]
 
 [comments]
