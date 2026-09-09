@@ -1,0 +1,61 @@
+{{- /* Keep only the active table-of-contents branch expanded. */ -}}
+<script>
+    (() => {
+        const toc = document.querySelector('#TableOfContents');
+        if (!toc) {
+            return;
+        }
+
+        const childListSelector = ':scope > ul, :scope > ol';
+        let framePending = false;
+
+        const syncExpandedBranch = () => {
+            framePending = false;
+
+            const activeItem = toc.querySelector('li.active-class');
+            const expandedItems = new Set();
+            let item = activeItem;
+
+            while (item instanceof HTMLElement && item.closest('#TableOfContents') === toc) {
+                if (item.matches('li') && item.querySelector(childListSelector)) {
+                    expandedItems.add(item);
+                }
+                item = item.parentElement?.closest('li');
+            }
+
+            toc.querySelectorAll('li.toc-expanded').forEach((entry) => {
+                if (!expandedItems.has(entry)) {
+                    entry.classList.remove('toc-expanded');
+                }
+            });
+
+            expandedItems.forEach((entry) => {
+                entry.classList.add('toc-expanded');
+            });
+        };
+
+        const scheduleSync = () => {
+            if (framePending) {
+                return;
+            }
+
+            framePending = true;
+            window.requestAnimationFrame(syncExpandedBranch);
+        };
+
+        window.addEventListener('scroll', scheduleSync, { passive: true });
+        window.addEventListener('resize', scheduleSync);
+
+        // Stack adds active-class from its own scrollspy. Watching the class
+        // also handles anchor jumps and programmatic scrolling.
+        const observer = new MutationObserver(scheduleSync);
+        observer.observe(toc, {
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['class'],
+        });
+
+        syncExpandedBranch();
+        window.addEventListener('load', () => window.setTimeout(syncExpandedBranch, 50), { once: true });
+    })();
+</script>

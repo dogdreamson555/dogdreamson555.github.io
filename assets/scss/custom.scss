@@ -118,3 +118,17 @@
         }
     }
 }
+
+/* Collapse nested entries in the desktop table of contents. The script in
+   footer/custom.html opens the branch containing the active heading. */
+#TableOfContents {
+    li > ul,
+    li > ol {
+        display: none;
+    }
+
+    li.toc-expanded > ul,
+    li.toc-expanded > ol {
+        display: block;
+    }
+}
