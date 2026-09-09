@@ -4,6 +4,7 @@ date: 2026-09-09T00:00:00+08:00
 slug: reading-preview
 draft: false
 description: "用于查看中文正文、多级标题、代码、表格和配图的公开测试文章。"
+image: "cover.png"
 categories: ["测试"]
 tags: ["排版", "Markdown"]
 ---
