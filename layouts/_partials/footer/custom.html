@@ -1,4 +1,7 @@
 {{- /* Keep only the active table-of-contents branch expanded. */ -}}
+{{- $particlesScript := resources.Get "background/particles/particles.js" | resources.Minify | fingerprint -}}
+{{- $particlesConfig := resources.Get "background/particles/particlesjs-config.json" | fingerprint -}}
+
 <script>
     (() => {
         const toc = document.querySelector('#TableOfContents');
@@ -57,5 +60,40 @@
 
         syncExpandedBranch();
         window.addEventListener('load', () => window.setTimeout(syncExpandedBranch, 50), { once: true });
+    })();
+</script>
+
+<div id="particles-js" aria-hidden="true"></div>
+<script>
+    (() => {
+        if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+            return;
+        }
+
+        const initParticles = () => {
+            const script = document.createElement('script');
+            script.src = '{{ $particlesScript.RelPermalink }}';
+            script.async = true;
+            script.addEventListener('load', () => {
+                if (typeof window.particlesJS?.load === 'function') {
+                    window.particlesJS.load('particles-js', '{{ $particlesConfig.RelPermalink }}');
+                }
+            }, { once: true });
+            document.head.appendChild(script);
+        };
+
+        const scheduleParticles = () => {
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(initParticles, { timeout: 1200 });
+            } else {
+                window.setTimeout(initParticles, 0);
+            }
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', scheduleParticles, { once: true });
+        } else {
+            scheduleParticles();
+        }
     })();
 </script>

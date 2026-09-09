@@ -132,3 +132,33 @@
         display: block;
     }
 }
+
+/* A quiet, full-viewport layer keeps the floating network behind the cards. */
+#particles-js {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+
+    & > .particles-js-canvas-el {
+        position: fixed;
+        inset: 0;
+        width: 100% !important;
+        height: 100% !important;
+        pointer-events: none;
+    }
+}
+
+body > .main-container {
+    position: relative;
+    z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #particles-js {
+        display: none;
+    }
+}
