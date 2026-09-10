@@ -3,6 +3,7 @@
 {{- $particlesConfig := resources.Get "background/particles/particlesjs-config.json" | fingerprint -}}
 {{- $backTopLight := resources.Get "icons/backTop-light.svg" | fingerprint -}}
 {{- $backTopDark := resources.Get "icons/backTop-dark.svg" | fingerprint -}}
+{{- $fishScript := resources.Get "js/fish.js" | resources.Minify | fingerprint -}}
 
 <script>
     (() => {
@@ -220,5 +221,34 @@
         }
 
         window.particlesJS.load('particles-js', '{{ $particlesConfig.RelPermalink }}');
+    })();
+</script>
+
+<div id="custom-footer-fish">
+    <div id="jsi-flying-fish-container" aria-hidden="true"></div>
+</div>
+<script src="{{ $fishScript.RelPermalink }}"></script>
+<script>
+    (() => {
+        const initFish = () => {
+            const container = document.querySelector('#jsi-flying-fish-container');
+
+            if (!container || container.dataset.initialized === 'true') {
+                return;
+            }
+
+            if (typeof window.RENDERER?.init !== 'function') {
+                return;
+            }
+
+            container.dataset.initialized = 'true';
+            window.RENDERER.init();
+        };
+
+        if (document.readyState === 'complete') {
+            initFish();
+        } else {
+            window.addEventListener('load', initFish, { once: true });
+        }
     })();
 </script>

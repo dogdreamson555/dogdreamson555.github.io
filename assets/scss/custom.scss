@@ -157,6 +157,40 @@ body > .main-container {
     z-index: 1;
 }
 
+/* Keep the requested fish animation visible along the bottom of the viewport. */
+#custom-footer-fish {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    height: 0;
+}
+
+#jsi-flying-fish-container {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    opacity: 0.5;
+    pointer-events: none;
+
+    canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    #jsi-flying-fish-container {
+        height: 150px;
+        opacity: 0.42;
+    }
+}
+
 /* Collapse only code blocks that are taller than the reference height. */
 .article-content {
     .highlight.code-collapsed {
