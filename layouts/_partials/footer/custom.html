@@ -65,6 +65,48 @@
     })();
 </script>
 
+<script>
+    (() => {
+        const maxCodeHeight = 400;
+        const codeBlocks = document.querySelectorAll('.article-content .highlight');
+
+        codeBlocks.forEach((codeBlock) => {
+            if (codeBlock.dataset.codeCollapseInitialized === 'true' || codeBlock.scrollHeight <= maxCodeHeight) {
+                return;
+            }
+
+            codeBlock.dataset.codeCollapseInitialized = 'true';
+            codeBlock.classList.add('code-collapsed');
+
+            const moreBox = document.createElement('div');
+            moreBox.className = 'code-more-box';
+
+            const moreButton = document.createElement('button');
+            moreButton.className = 'code-more-btn';
+            moreButton.type = 'button';
+            moreButton.setAttribute('aria-label', '展开代码块');
+            moreButton.setAttribute('aria-expanded', 'false');
+            moreButton.innerHTML = `
+                <svg viewBox="0 0 24 16" aria-hidden="true" focusable="false">
+                    <path d="m3 3 9 9 9-9" />
+                </svg>`;
+
+            moreButton.addEventListener('click', () => {
+                codeBlock.classList.remove('code-collapsed');
+                codeBlock.classList.add('code-expanded');
+                moreButton.setAttribute('aria-expanded', 'true');
+                moreBox.remove();
+
+                // The expanded block changes page geometry; refresh the Stack scrollspy.
+                window.dispatchEvent(new Event('resize'));
+            }, { once: true });
+
+            moreBox.appendChild(moreButton);
+            codeBlock.appendChild(moreBox);
+        });
+    })();
+</script>
+
 <style>
     #backTopBtn {
         display: none;
