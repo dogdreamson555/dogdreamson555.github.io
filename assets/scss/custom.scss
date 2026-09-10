@@ -157,7 +157,7 @@ body > .main-container {
     z-index: 1;
 }
 
-/* Keep the requested fish animation visible along the bottom of the viewport. */
+/* Keep the requested fish animation at the bottom of the document. */
 #custom-footer-fish {
     position: relative;
     z-index: 0;
@@ -166,7 +166,7 @@ body > .main-container {
 }
 
 #jsi-flying-fish-container {
-    position: fixed;
+    position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
