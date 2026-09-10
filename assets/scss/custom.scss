@@ -160,8 +160,8 @@ body > .main-container {
 /* Keep navigation within reach without competing with the article content. */
 .back-to-top {
     position: fixed;
-    right: max(20px, env(safe-area-inset-right));
-    bottom: max(20px, env(safe-area-inset-bottom));
+    right: calc(20px + env(safe-area-inset-right));
+    bottom: calc(20px + env(safe-area-inset-bottom));
     z-index: 20;
     display: inline-grid;
     place-items: center;
