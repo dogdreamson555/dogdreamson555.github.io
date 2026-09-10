@@ -1,7 +1,7 @@
 ---
 title: 长代码测试
 date: 2026-09-10T00:00:00+08:00
-slug: my-first-article
+slug: long-code-test
 draft: false
 description: 文章摘要
 categories:
