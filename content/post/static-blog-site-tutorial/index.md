@@ -1,5 +1,5 @@
 ---
-title: "无需学代码，10分钟之内利用GitHub Page免费创建静态博客"
+title: "无需编程：10 分钟用 GitHub Pages 免费搭建静态个人博客"
 date: 2026-09-19T00:00:00+08:00
 slug: static-blog-site-tutorial
 draft: false
@@ -85,7 +85,7 @@ image: "cover.png"
 >
 > `slug`：网址里“用来表示这篇内容是什么”的那一小段名字。&emsp; &emsp; 例如: `example.com/blog/bulid-a-new-system`，这里的`bulid-a-new-system`就是 slug
 >
-> `draft`：确保发布前为 `flase`
+> `draft`：确保发布前为 `false`
 >
 > `description`：文章的简介
 >
