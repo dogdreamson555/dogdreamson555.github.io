@@ -1,5 +1,5 @@
 ---
-title: "无需编程：10 分钟内用 GitHub Pages 免费搭建静态个人博客"
+title: "无需编程：10 分钟内用 GitHub Pages 免费搭建静态博客"
 date: 2026-09-19T00:00:00+08:00
 slug: static-blog-site-tutorial
 draft: false
